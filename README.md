@@ -4,12 +4,9 @@ This is a set of Greasemonkey scripts to fix accessibility problems with various
 
 ## Installation
 
-Before you can install any of these scripts, you must first install a user script manager for your browser.
-For Firefox, you can install [GreaseMonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/). Note that at the time of writing, the release version, v4.2, has a bug that prevents  installation of scripts hosted on GitHub. If you're experiencing this, [download the latest beta of v4.3](https://addons.mozilla.org/firefox/addon/greasemonkey/versions/beta); [refer to this issue for details](https://github.com/greasemonkey/greasemonkey/issues/2631).
-
-For Chrome, you can install [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo).
+Before you can install any of these scripts, you must first install a user script manager for your browser; [GreaseMonkey for firefox](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) or [Tampermonkey for Chrome](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo).
 There are also user script managers for other browsers.
-See [Greasy Fork's page on   user script installations](https://greasyfork.org/en/help/installing-user-scripts) for more details.
+See the [Greasy Fork's page on   user script installations](https://greasyfork.org/en/help/installing-user-scripts) for more details.
 
 After installing a user script manager,  activate the link for each script to install it.
 
