@@ -10,6 +10,15 @@ See the [Greasy Fork's page on   user script installations](https://greasyfork.o
 
 After installing a user script manager,  activate the link for each script to install it.
 
+## GitLab Accessibility Fixes
+
+[Download GitLab  Accessibility Fixes](https://github.com/Neurrone/greasemonkey-scripts/raw/master/gitlab%20a11y%20fixes.user.js)
+
+This script fixes the following problems on  [GitLab](https://gitlab.com):
+
+* Adding table semantics for pseudo div tables for the issues and merge requests table.
+* Adding level 4 headings for file names to facilitate more convenient navigation when viewing diffs.
+
 ## WhatsApp Web Accessibility Fixes
 
 [Download WhatsApp Web Accessibility Fixes](https://github.com/Neurrone/greasemonkey-scripts/raw/master/whatsApp%20Web%20a11y%20fixes.user.js)
