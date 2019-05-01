@@ -14,7 +14,7 @@
 
 // Add heading roles for releases and individual stories for more efficient navigation
 function onStoryLoad(index, target) {
-    for (node of target.querySelectorAll("div.feature span.story_name, div.chore span.story_name")) {
+    for (node of target.querySelectorAll("div.feature span.story_name, div.chore span.story_name, div.bug span.story_name")) {
         node.setAttribute("role", "heading");
         node.setAttribute("aria-level", "2");
     }
@@ -24,5 +24,12 @@ function onStoryLoad(index, target) {
     }
 }
 
+// Make panels labelled regions for ease of navigation and understanding of page layout
+function onPanelLoad(index, target) {
+    target.setAttribute("role", "region");
+    target.setAttribute('aria-label', target.getAttribute('data-type'));
+}
+
 // wait for ajax calls to load the required elements
 waitForKeyElements ('div.story', function(nodes) { nodes.each(onStoryLoad); });
+waitForKeyElements ('div[data-aid=Panel]', function(nodes) { nodes.each(onPanelLoad); });
