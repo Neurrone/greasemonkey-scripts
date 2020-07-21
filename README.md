@@ -38,3 +38,12 @@ This script improves the accessibility of [WhatsApp Web](https://web.whatsapp.co
 * Adding regions around the conversation selection pane and the main conversation area.
 * Making incoming and outgoing messages level 4 and 5 headings respectively.
 * Automatic announcement of new incoming and outgoing messages for the currently selected conversation.
+
+## Miniflux Accessibility Fixes
+
+[Download Miniflux Web Accessibility Fixes](https://github.com/Neurrone/greasemonkey-scripts/raw/master/miniflux%20a11y%20fixes.user.js)
+
+This script improves the accessibility of [Miniflux](https://reader.miniflux.app) by:
+
+* Adding the list and list item roles to feed items for convenient navigation
+* Removing list roles / semantics which aren't important and would prevent efficient navigation via list elements
