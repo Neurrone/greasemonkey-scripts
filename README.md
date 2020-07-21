@@ -41,7 +41,7 @@ This script improves the accessibility of [WhatsApp Web](https://web.whatsapp.co
 
 ## Miniflux Accessibility Fixes
 
-[Download Miniflux Web Accessibility Fixes](https://github.com/Neurrone/greasemonkey-scripts/raw/master/miniflux%20a11y%20fixes.user.js)
+[Download Miniflux Accessibility Fixes](https://github.com/Neurrone/greasemonkey-scripts/raw/master/miniflux%20a11y%20fixes.user.js)
 
 This script improves the accessibility of [Miniflux](https://reader.miniflux.app) by:
 
