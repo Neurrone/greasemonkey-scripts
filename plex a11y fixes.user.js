@@ -147,6 +147,7 @@ const menuKeyboardNavigation = (event) => {
   switch (key) {
     case "ArrowDown":
     case "Down": {
+      event.stopPropagation(); // prevent decreases in volume caused by down arrow
       let nextItem = focused.nextElementSibling;
       // skip of <div> menu separators between menu items
       while (
@@ -162,6 +163,7 @@ const menuKeyboardNavigation = (event) => {
     }
     case "ArrowUp":
     case "Up": {
+      event.stopPropagation(); // prevent increases in volume caused by up arrow
       let prevItem = focused.previousElementSibling;
       // skip of <div> menu separators between menu items
       while (
@@ -185,6 +187,45 @@ const menuKeyboardNavigation = (event) => {
     }
     default:
       break;
+  }
+};
+
+const fixAlbumListTable = (el) => {
+  el.setAttribute("role", "table");
+  for (let row of el.querySelectorAll("div[class*=ListRow-row]")) {
+    row.setAttribute("role", "row");
+  }
+
+  for (let col of el.querySelectorAll("div[class*=ListRow-row] > div")) {
+    col.setAttribute("role", "cell");
+  }
+};
+
+const fixPlaylistTable = (el) => {
+  el.setAttribute("role", "table");
+  for (let child of el.childNodes) {
+    child.setAttribute("role", "presentation");
+  }
+
+  for (let node of el.querySelectorAll(
+    "div > div[class*=PlaylistItemDragSource-container]"
+  )) {
+    node.setAttribute("role", "presentation");
+  }
+  for (let node of el.querySelectorAll(
+    "div > div[class*=PlaylistItemDragSource-container] > div[class*=PlaylistItemRow-container]"
+  )) {
+    node.setAttribute("role", "row");
+  }
+  for (let node of el.querySelectorAll(
+    "div > div[class*=PlaylistItemDragSource-container] > div[class*=PlaylistItemRow-container] > div[class*=PlaylistItemRow-overlay]"
+  )) {
+    node.setAttribute("role", "presentation");
+  }
+  for (let node of el.querySelectorAll(
+    "div > div[class*=PlaylistItemDragSource-container] > div[class*=PlaylistItemRow-container] > div[class*=PlaylistItemRow-overlay] > div"
+  )) {
+    node.setAttribute("role", "cell");
   }
 };
 
@@ -279,6 +320,15 @@ const DYNAMIC_TWEAKS = [
       firstItem.focus();
       el.addEventListener("keydown", menuKeyboardNavigation);
     },
+  },
+  /* Make pseudo-tables look like real tables via aria */
+  {
+    selector: 'div[class*="AlbumDisc-trackList"]',
+    tweak: [fixAlbumListTable],
+  },
+  {
+    selector: 'div[class*="PrePlayListTopDivider-topDivider"] + div',
+    tweak: [fixPlaylistTable],
   },
 ];
 
