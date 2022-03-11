@@ -33,7 +33,21 @@ This site is particularly awful, and is one of the worst I've seen. There is onl
 
 [Download Plex Web Accessibility Fixes](https://github.com/Neurrone/greasemonkey-scripts/raw/master/plex%20a11y%20fixes.user.js)
 
-This script improves the accessibility of the [Plex Web interface](https://app.plex.tv).
+This script improves the accessibility of the [Plex Web interface](https://app.plex.tv) by:
+
+- Adding labelled regions for more efficient navigation around the interface for screen reader users
+- Adding missing labels to buttons on the album details and playback control widgets as well as the selection tool bar
+- When multiple items are selected, the toolbar that appears to operate on selected items is exposed via a labelled region
+- Menus are made keyboard accessible. Focus automatically moves to menus when opened. The up/down arrow, home and end keys can be used to navigate through menu items. First-letter navigation is supported as well (i.e, pressing "p" moves you to the next option that starts with p, if any)
+- The playlist, album track list and playback queue pseudo-tables are exposed as a table via aria
+- In contexts when multiple tracks can be selected, The `aria-hidden` attribute on the deselect button next to each track is unhidden as it was mistakenly set
+
+Press the `?` key for a list of built-in hotkeys. The most important ones to note are:
+
+- `/` brings focus to the search field
+- `space` plays / pauses
+- `up` / `down` increases / decreases volume in steps of 10%. This is particularly important as the volume progress bar is not keyboard accessible
+- `shift` + `left / right`: moves to the previous or next item in the play queue
 
 ## WhatsApp Web Accessibility Fixes
 

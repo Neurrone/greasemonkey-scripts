@@ -8,6 +8,11 @@
 // @include https://app.plex.tv/desktop/*
 // ==/UserScript==
 
+/*
+ * These utility functions were lifted from James Teh's framework which simplifies many common tasks
+ * See https://github.com/jcsteh/axSGrease/tree/master/framework
+ */
+
 /*** Functions for common tweaks. ***/
 
 function makeHeading(el, level) {
@@ -138,6 +143,19 @@ function init() {
   observer.observe(document, options);
 }
 
+const fixArtistToolbar = (el) => {
+  makeRegion(el, "Artist Tool Bar");
+  setLabel(
+    el.querySelector('a[data-testid="toolbarPrevious"]'),
+    "Previous Album"
+  );
+  setLabel(el.querySelector('a[data-testid="toolbarNext"]'), "Next Album");
+  setLabel(
+    el.querySelector('button[class*="ToolbarButton-toolbarButton"]'),
+    "Albums"
+  );
+};
+
 const menuKeyboardNavigation = (event) => {
   const key = event.key;
   const focused = document.activeElement;
@@ -185,8 +203,34 @@ const menuKeyboardNavigation = (event) => {
       focused.parentNode.lastChild.focus();
       break;
     }
-    default:
+    default: {
+      const isKeyEligibleForFirstLetterNav =
+        key.length === 1 && key.match(/[a-zA-Z0-9]/);
+
+      if (
+        !(event.shiftKey || event.ctrlKey || event.altKey || event.metaKey) &&
+        isKeyEligibleForFirstLetterNav
+      ) {
+        // Prevent triggering a built-in Plex shortcut
+        event.stopPropagation();
+        const normalizedKey = key.toLowerCase();
+
+        let nextItem = focused.nextElementSibling;
+        // skip of <div> menu separators between menu items,
+        // and find an item with a label that matches the key pressed
+        while (
+          nextItem &&
+          (!possibleMenuItemElements.includes(nextItem.nodeName) ||
+            nextItem.innerText.toLowerCase()[0] !== normalizedKey)
+        ) {
+          nextItem = nextItem.nextElementSibling;
+        }
+        if (nextItem && nextItem.innerText.toLowerCase()[0] === normalizedKey) {
+          nextItem.focus();
+        }
+      }
       break;
+    }
   }
 };
 
@@ -226,6 +270,27 @@ const fixPlaylistTable = (el) => {
     "div > div[class*=PlaylistItemDragSource-container] > div[class*=PlaylistItemRow-container] > div[class*=PlaylistItemRow-overlay] > div"
   )) {
     node.setAttribute("role", "cell");
+  }
+};
+
+const fixPlayQueueTable = (el) => {
+  el.setAttribute("role", "table");
+  for (let node of el.querySelectorAll(
+    "div[class*=AudioVideoPlayQueueItemDragSource-container]"
+  )) {
+    node.setAttribute("role", "presentation");
+  }
+
+  for (let row of el.querySelectorAll(
+    "div[class*=AudioVideoPlayQueueItem-container]"
+  )) {
+    row.setAttribute("role", "row");
+  }
+
+  for (let col of el.querySelectorAll(
+    "div[class*=AudioVideoPlayQueueItem-container] > div"
+  )) {
+    col.setAttribute("role", "cell");
   }
 };
 
@@ -304,6 +369,34 @@ const DYNAMIC_TWEAKS = [
       setLabel(el.parentNode, "More");
     },
   },
+  /* Fix artist album navigation toolbar */
+  {
+    selector:
+      'div[class*="PageHeaderRight-pageHeaderRight"] a[data-testid="toolbarPrevious"]',
+    tweak: (el) => {
+      fixArtistToolbar(el.parentNode);
+    },
+  },
+  /* Make the player controls area a labelled region */
+  {
+    selector: 'div[class*="Player-miniPlayerContainer"]',
+    tweak: (el) => {
+      makeRegion(el, "Playback Controls");
+    },
+  },
+  /* Add labels to the seek and volume progress bars */
+  {
+    selector: 'div[class*="SeekBar-seekBar"] button[role=slider]',
+    tweak: (el) => {
+      setLabel(el, "Seek");
+    },
+  },
+  {
+    selector: 'div[class*="PlayerControls-volumeSlider"] button[role=slider]',
+    tweak: (el) => {
+      setLabel(el, "Volume");
+    },
+  },
   /* Make the deselect button visible to screen readers */
   {
     selector:
@@ -316,7 +409,10 @@ const DYNAMIC_TWEAKS = [
   {
     selector: 'div[class*="Menu-menuScroller"]',
     tweak: (el) => {
-      const firstItem = el.querySelector('button[role="menuitem"]');
+      const firstItem = el.querySelector(
+        // menu items are buttons or links
+        'button[role="menuitem"], a[role="menuitem"]'
+      );
       firstItem.focus();
       el.addEventListener("keydown", menuKeyboardNavigation);
     },
@@ -329,6 +425,10 @@ const DYNAMIC_TWEAKS = [
   {
     selector: 'div[class*="PrePlayListTopDivider-topDivider"] + div',
     tweak: [fixPlaylistTable],
+  },
+  {
+    selector: 'div[class*="AudioVideoPlayQueue-content"]',
+    tweak: [fixPlayQueueTable],
   },
 ];
 
