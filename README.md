@@ -41,6 +41,7 @@ This script improves the accessibility of the [Plex Web interface](https://app.p
 - Menus are made keyboard accessible. Focus automatically moves to menus when opened. The up/down arrow, home and end keys can be used to navigate through menu items. First-letter navigation is supported as well (i.e, pressing "p" moves you to the next option that starts with p, if any)
 - The playlist, album track list and playback queue pseudo-tables are exposed as a table via aria
 - In contexts when multiple tracks can be selected, The `aria-hidden` attribute on the deselect button next to each track is unhidden as it was mistakenly set
+- The currently active page (recommended / playlist / library) on the library screen is indicated
 
 Press the `?` key for a list of built-in hotkeys. The most important ones to note are:
 

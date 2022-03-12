@@ -294,6 +294,29 @@ const fixPlayQueueTable = (el) => {
   }
 };
 
+const fixLibraryContentsTable = (el) => {
+  console.log("fixing library contents table");
+  el.setAttribute("role", "table");
+
+  const header = el.querySelector(
+    "div[class*=DirectoryListTableHeader-tableHeader"
+  );
+  header.setAttribute("role", "row");
+  for (let col of header.childNodes) {
+    col.setAttribute("role", "columnheader");
+  }
+
+  const rows = header.nextElementSibling;
+  console.log("setting rowgroup");
+  rows.setAttribute("role", "rowgroup");
+  for (let row of rows.querySelectorAll("div[class*=ListRow]")) {
+    row.setAttribute("role", "row");
+    for (let cell of row.childNodes) {
+      cell.setAttribute("role", "cell");
+    }
+  }
+};
+
 /*** Define the actual tweaks. ***/
 
 // Tweaks that only need to be applied on load.
@@ -405,6 +428,17 @@ const DYNAMIC_TWEAKS = [
       el.setAttribute("aria-hidden", "false");
     },
   },
+  /* Indicate which view is active on the library page */
+  {
+    selector: 'a[class*="PivotTab-button"]',
+    tweak: (el) => {
+      if (el.className.includes("PivotTab-selectedButton")) {
+        el.setAttribute("aria-current", "page");
+      } else {
+        el.setAttribute("aria-current", "false");
+      }
+    },
+  },
   /* Add keyboard navigation in menus */
   {
     selector: 'div[class*="Menu-menuScroller"]',
@@ -430,6 +464,15 @@ const DYNAMIC_TWEAKS = [
     selector: 'div[class*="AudioVideoPlayQueue-content"]',
     tweak: [fixPlayQueueTable],
   },
+  /*
+  // commented out because it doesn't seem to work with the virtualized table
+  {
+    selector: "div[class*=DirectoryListTableHeader-tableHeader] + div",
+    tweak: (el) => {
+      fixLibraryContentsTable(el.parentNode);
+    },
+  },
+  */
 ];
 
 /*** Lights, camera, action! ***/
